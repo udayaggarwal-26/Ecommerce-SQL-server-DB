@@ -14,7 +14,8 @@ Topics Covered:
 - LIKE
 - ORDER BY
 - TOP
-- OFFSET ... FETCH
+- OFFSET
+- FETCH
 
 Description:
 Practice querying data from the E-Commerce database using
@@ -209,5 +210,152 @@ WHERE CategoryID IN (3,4,5) AND IsActive = 1
       AND StockQuantity > 10 AND
       Price BETWEEN 800 AND 4000;
 
+-- ============================================
+-- STEP 6.7 - LIKE
+-- ============================================
 
+-- 1. Products whose names contain Wireless
+
+SELECT ProductName, Price
+FROM Products
+WHERE ProductName LIKE '%Wireless%';
+
+-- 2. All customers whose first name starts with "A".
+
+SELECT CustomerID, FirstName, LastName
+FROM Customers
+WHERE FirstName LIKE 'A%';
+
+-- 3. Marketing team wants to send promotional emails only to Gmail users.
+
+SELECT FirstName, LastName, Email
+FROM Customers
+WHERE Email LIKE '%@gmail.com';
+
+-- 4. Customers whose city contains the letter "a" anywhere in its name.
+
+SELECT FirstName, LastName, City
+FROM Customers
+WHERE City LIKE '%a%';
+
+/* 5. A query that returns all products:
+-> Whose names contain Head
+-> Are active
+-> Cost more than ₹1000 */
+
+SELECT ProductID, ProductName, Price, StockQuantity
+FROM Products
+WHERE ProductName LIKE '%Head%'
+      AND IsActive = 1
+      AND Price > 1000;
+
+-- ============================================
+-- STEP 6.8 - ORDER BY
+-- ============================================
+
+-- 1. Products from the lowest price to the highest price.
+
+SELECT ProductName, Price
+FROM Products
+ORDER BY Price ASC;
+
+-- 2. All customers in alphabetical order of their last name.
+
+SELECT FirstName, LastName, City
+FROM Customers
+ORDER BY LastName ASC;
+
+-- 3. Display the latest orders
+
+SELECT OrderID, CustomerID, OrderDate, Status
+FROM Orders
+ORDER BY OrderDate DESC;
+
+/* 4. All products sorted by: 
+-> CategoryID (ascending)
+-> Price (descending) */
+
+SELECT ProductName, CategoryID, Price
+FROM Products
+ORDER BY CategoryID ASC, Price DESC;
+
+/* 5. Products that satisfy all of the following:
+-> Price between ₹500 and ₹5000
+-> Category is either Electronics or Home & Kitchen
+
+Sort the results by:
+-> CategoryID (ascending)
+-> Price (descending)
+-> ProductName (ascending) */
+
+SELECT ProductID, ProductName, CategoryID, Price, StockQuantity
+FROM Products
+WHERE Price BETWEEN 500 AND 5000
+      AND CategoryID IN (1,4)
+ORDER BY CategoryID ASC,
+         Price DESC,
+         ProductName ASC;
+
+-- ============================================
+-- STEP 6.9 - TOP & TOP PERCENT
+-- ============================================
+
+-- 1. Top 5 most expensive products
+
+SELECT TOP 5 ProductName, Price, StockQuantity
+FROM Products
+ORDER BY Price DESC;
+
+-- 2. Top 30% of highest available products
+
+SELECT TOP 30 PERCENT ProductName, Price, StockQuantity
+FROM Products
+ORDER BY StockQuantity DESC;
+
+/* 3. TOP 3 products that satisfy all these conditions:
+-> Category = Electronics
+-> Active products only
+-> Price greater than ₹500
+
+Sort the result by:
+-> Price(highest first)
+-> StockQuantity (highest first) */
+
+SELECT TOP 3 ProductID, ProductName, Price, StockQuantity
+FROM Products
+WHERE CategoryID = 1 AND IsActive = 1
+      AND Price > 500 
+ORDER BY Price DESC, StockQuantity DESC;
+
+-- ============================================
+-- STEP 6.10 - OFFSET & FETCH
+-- ============================================
+
+-- 1. Second page of products ordered by ProductID (Page Size = 5)
+
+SELECT ProductID, ProductName, Price
+FROM Products 
+ORDER BY ProductID ASC
+OFFSET 5 ROWS
+FETCH NEXT 5 ROWS ONLY;
+
+-- 2. Customers ordered by LastName. Skip the first 2 and return the next 3.
+
+SELECT CustomerID, FirstName, LastName
+FROM Customers
+ORDER BY LastName ASC
+OFFSET 2 ROWS
+FETCH NEXT 3 ROWS ONLY;
+
+/* 3. Query to display:
+Only Electronics products (CategoryID = 1)
+Sorted by price (highest first)
+Show only the products for Page 2 (Page Size = 4) */
+
+SELECT ProductID, ProductName, Price, StockQuantity
+FROM Products
+WHERE CategoryID = 1 
+ORDER BY Price DESC 
+OFFSET 4 ROWS
+FETCH NEXT 4 ROWS ONLY;
 
