@@ -116,3 +116,79 @@ FROM OrderDetails;
 SELECT SUM(Price * StockQuantity) [Inventory Value]
 FROM Products;
 
+-- ============================================
+-- STEP 7.4 - GROUP BY
+-- ============================================
+
+-- 1. Number of customers registered from each city.
+
+SELECT City, COUNT(*) [Total Customers]
+FROM Customers
+GROUP BY City;
+
+-- 2. Total stock quantity available for each product category.
+
+SELECT CategoryID, SUM(StockQuantity) [Total Stock]
+FROM Products
+GROUP BY CategoryID;
+
+-- 3. Total quantity of items sold for each order.
+
+SELECT OrderID, SUM(Quantity) [Total Quantity]
+FROM OrderDetails
+GROUP BY OrderID;
+
+-- 4. For each order, calculate the total order value.
+
+SELECT OrderID, SUM(Quantity * UnitPrice) [Total Order Value]
+FROM OrderDetails
+GROUP BY OrderID;
+
+-- 5. The number of orders in each order status.
+
+SELECT Status, COUNT(*) [Total Orders]
+FROM Orders
+GROUP BY Status
+ORDER BY [Total Orders] DESC;
+
+-- ============================================
+-- STEP 7.5 - HAVING
+-- ============================================
+
+-- 1. Cities that have more than one registered customer.
+
+SELECT City, COUNT(*) [Total Customers] 
+FROM Customers
+GROUP BY City
+HAVING COUNT(*) > 1;
+
+-- 2. Payment methods whose total payment amount exceeds ₹5,000.
+
+SELECT PaymentMethod, SUM(Amount) [Total Amount]
+FROM Payments
+GROUP BY PaymentMethod
+HAVING SUM(Amount) > 5000;
+
+-- 3. Order IDs where the total quantity of products ordered is greater than 5.
+
+SELECT OrderID, SUM(Quantity) [Total Quantity]
+FROM OrderDetails
+GROUP BY OrderID
+HAVING SUM(Quantity) > 5;
+
+-- 5. Order IDs where the total order value exceeds ₹3,000.
+
+SELECT OrderID, SUM(Quantity * UnitPrice) [Total Order Value]
+FROM OrderDetails
+GROUP BY OrderID
+HAVING SUM(Quantity * UnitPrice) > 3000;
+
+/* 6. Payment methods where:
+-> Total revenue exceeds ₹5,000
+-> Sort the result from highest revenue to lowest. */ 
+
+SELECT PaymentMethod, SUM(Amount) [Total Revenue]
+FROM Payments
+GROUP BY PaymentMethod
+HAVING SUM(Amount) > 5000
+ORDER BY [Total Revenue] DESC;
