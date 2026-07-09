@@ -1,3 +1,16 @@
+/* ============================================================
+File: 03_update_examples.sql   
+Project: E-Commerce Database (SQL Server)
+
+Topics covered: 
+- UPDATE
+
+Description:
+Practice updating data in the E-Commerce databaseusing various
+UPDATE statements and conditions.
+============================================================ 
+*/
+
 SELECT * FROM Categories;
 SELECT * FROM Products;
 SELECT * FROM Customers;

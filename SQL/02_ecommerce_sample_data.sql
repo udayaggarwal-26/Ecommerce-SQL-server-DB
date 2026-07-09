@@ -1,12 +1,19 @@
 /* ============================================================
-   ECOMMERCE PROJECT - STEP 2: INSERT SAMPLE DATA
-   Topics used: INSERT
-   Order matters here because of FK constraints:
-   Categories -> Products -> Customers -> Orders -> OrderDetails -> Payments
-   ============================================================ */
+File: 02_ecommerce_sample_data.sql   
+Project: E-Commerce Database (SQL Server)
+
+Topics covered: 
+- INSERT
+Order matters here because of FK constraints:
+Categories -> Products -> Customers -> Orders -> OrderDetails -> Payments
+
+Description:
+Insert sample data into the E-Commerce database tables
+============================================================ 
+*/
 
 USE ECommerceDB;
-GO
+
 
 -- 1. Categories
 INSERT INTO Categories (CategoryName, Description) VALUES
@@ -15,7 +22,7 @@ INSERT INTO Categories (CategoryName, Description) VALUES
 ('Books', 'Fiction, non-fiction and academic books'),
 ('Home & Kitchen', 'Appliances, cookware and furnishings'),
 ('Sports', 'Fitness and outdoor equipment');
-GO
+
 
 -- 2. Products
 INSERT INTO Products (ProductName, CategoryID, Price, StockQuantity, IsActive) VALUES
@@ -32,7 +39,7 @@ INSERT INTO Products (ProductName, CategoryID, Price, StockQuantity, IsActive) V
 ('Yoga Mat', 5, 699.00, 150, 1),
 ('Dumbbell Set 10kg', 5, 2499.00, 40, 1),
 ('Discontinued Radio', 1, 499.00, 0, 0);  -- inactive product example
-GO
+
 
 -- 3. Customers
 INSERT INTO Customers (FirstName, LastName, Email, Phone, City, State, Country) VALUES
@@ -42,7 +49,7 @@ INSERT INTO Customers (FirstName, LastName, Email, Phone, City, State, Country) 
 ('Sneha', 'Iyer', 'sneha.iyer@example.com', NULL, 'Chennai', 'Tamil Nadu', 'India'),
 ('Karan', 'Singh', 'karan.singh@example.com', '9876500044', 'Delhi', 'Delhi', 'India'),
 ('Anita', 'Das', 'anita.das@example.com', '9876500055', 'Kolkata', 'West Bengal', 'India');
-GO
+
 
 -- 4. Orders
 INSERT INTO Orders (CustomerID, OrderDate, Status, ShippingAddress) VALUES
@@ -53,7 +60,7 @@ INSERT INTO Orders (CustomerID, OrderDate, Status, ShippingAddress) VALUES
 (4, '2026-06-01', 'Delivered', '9 Anna Nagar, Chennai'),
 (5, '2026-06-05', 'Cancelled', '22 Connaught Place, Delhi'),
 (6, '2026-06-20', 'Delivered', '5 Park Street, Kolkata');
-GO
+
 
 -- 5. OrderDetails (line items per order)
 INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice) VALUES
@@ -67,7 +74,7 @@ INSERT INTO OrderDetails (OrderID, ProductID, Quantity, UnitPrice) VALUES
 (6, 12, 1, 2499.00),
 (7, 4, 4, 449.00),
 (7, 11, 2, 699.00);
-GO
+
 
 -- 6. Payments (one per order, except the pending one which has no payment yet)
 INSERT INTO Payments (OrderID, PaymentDate, Amount, PaymentMethod, PaymentStatus) VALUES
@@ -77,4 +84,4 @@ INSERT INTO Payments (OrderID, PaymentDate, Amount, PaymentMethod, PaymentStatus
 (5, '2026-06-01', 1197.00, 'UPI', 'Completed'),
 (6, '2026-06-05', 2499.00, 'CreditCard', 'Refunded'),
 (7, '2026-06-20', 3194.00, 'COD', 'Completed');
-GO
+

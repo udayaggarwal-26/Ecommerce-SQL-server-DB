@@ -1,6 +1,17 @@
--- ===========================================
--- ALTER / TRUNCATE / DROP Practice
--- ===========================================
+/* ============================================================
+File: 05_alter_truncate_drop.sql   
+Project: E-Commerce Database (SQL Server)
+
+Topics covered: 
+- ALTER
+- TRUNCATE
+- DROP
+
+Description:
+Practice modifying and removing database objects 
+using ALTER, TRUNCATE, and DROP statements.
+============================================================ 
+*/
 
 -- Create practice table
 
@@ -19,7 +30,9 @@ VALUES
 
 SELECT * FROM ProductPractice;
 
--- Practice ALTER commands here
+-- ============================================
+-- STEP 5.1 - ALTER
+-- ============================================
 
 -- 1. Add a new column Brand and specify its value for each product
 ALTER TABLE ProductPractice
@@ -47,12 +60,16 @@ ALTER COLUMN Brand VARCHAR(100);
 ALTER TABLE ProductPractice
 DROP COLUMN Brand;
 
--- Practice TRUNCATE here
+-- ============================================
+-- STEP 5.2 - TRUNCATE
+-- ============================================
 
 -- 1. TRUNCATE the table
 TRUNCATE TABLE ProductPractice;
 
--- Practice DROP here
+-- ============================================
+-- STEP 5.3 - DROP
+-- ============================================
 
 -- 1. DROP the table
 DROP TABLE ProductPractice;

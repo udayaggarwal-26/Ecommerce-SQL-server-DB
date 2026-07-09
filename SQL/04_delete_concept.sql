@@ -1,3 +1,16 @@
+/* ============================================================
+File: 04_delete_concept.sql   
+Project: E-Commerce Database (SQL Server)
+
+Topics covered: 
+- DELETE
+
+Description:
+Practice deleting records from the E-Commerce database 
+and explore how foreign key relationships affect DELETE operations.
+============================================================ 
+*/
+
 SELECT * FROM Customers;
 
 --Insert a test row in the Customer table

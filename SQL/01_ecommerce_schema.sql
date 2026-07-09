@@ -1,15 +1,25 @@
 /* ============================================================
-   ECOMMERCE PROJECT - STEP 1: DATABASE + TABLES
-   Topics used: Database Concepts, Data Types, Constraints, PK/FK,
-                CREATE
-   ============================================================ */
+ECOMMERCE PROJECT 
+File: 01_ecommerce_schema.sql
+ 
+Topics covered: 
+- Database Concepts
+- Data Types
+- Constraints
+- PK/FK
+- CREATE TABLES AND DATABASE
+
+Description:
+Create the E-Commerce database and its tables using appropriate data types, 
+primary keys, foreign keys, constraints, and relationships.
+============================================================ 
+*/
+
 
 -- 1. Create the database
 CREATE DATABASE ECommerceDB;
-GO
 
 USE ECommerceDB;
-GO
 
 -- 2. Categories table
 CREATE TABLE Categories (
@@ -17,7 +27,7 @@ CREATE TABLE Categories (
     CategoryName    VARCHAR(50)  NOT NULL UNIQUE,
     Description     VARCHAR(255) NULL
 );
-GO
+
 
 -- 3. Products table
 CREATE TABLE Products (
@@ -32,7 +42,7 @@ CREATE TABLE Products (
     CONSTRAINT FK_Products_Categories
     FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID)
 );
-GO
+
 
 -- 4. Customers table
 CREATE TABLE Customers (
@@ -46,7 +56,7 @@ CREATE TABLE Customers (
     Country         VARCHAR(50)  NULL,
     RegisterDate    DATETIME     NOT NULL DEFAULT GETDATE()
 );
-GO
+
 
 -- 5. Orders table
 CREATE TABLE Orders (
@@ -60,7 +70,7 @@ CREATE TABLE Orders (
     CONSTRAINT FK_Orders_Customers
     FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
 );
-GO
+
 
 -- 6. OrderDetails table (line items)
 CREATE TABLE OrderDetails (
@@ -75,7 +85,7 @@ CREATE TABLE OrderDetails (
     CONSTRAINT FK_OrderDetails_Products
     FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
-GO
+
 
 -- 7. Payments table
 CREATE TABLE Payments (
@@ -91,4 +101,4 @@ CREATE TABLE Payments (
     CONSTRAINT FK_Payments_Orders
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
-GO
+
