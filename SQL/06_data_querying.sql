@@ -24,7 +24,7 @@ various filtering, sorting, and pagination techniques.
 */
 
 -- ============================================
--- STEP 6.1 - SELECT
+-- 6.1 - SELECT
 -- ============================================
 
 -- 1. Display all products
@@ -37,7 +37,7 @@ SELECT ProductName, Price
 FROM Products;
 
 -- ============================================
--- STEP 6.2 - DISTINCT
+-- 6.2 - DISTINCT
 -- ============================================
 
 -- 1. Cities of Customers 
@@ -56,7 +56,7 @@ SELECT DISTINCT CategoryID, IsActive
 FROM Products;
 
 -- ============================================
--- STEP 6.3 - WHERE
+-- 6.3 - WHERE
 -- ============================================
 
 -- 1. Name and price of products that cost more than ₹1000.
@@ -89,7 +89,7 @@ FROM Products
 WHERE CategoryID = 3;
 
 -- ============================================
--- STEP 6.4 - Comparison Operators
+-- 6.4 - Comparison Operators
 -- ============================================
 
 -- 1. Products priced above ₹2,000
@@ -134,7 +134,7 @@ FROM Products
 WHERE Price > 3000;
 
 -- ============================================
--- STEP 6.5 - AND, OR & NOT
+-- 6.5 - AND, OR & NOT
 -- ============================================
 
 -- 1. Products that are active and cost more than ₹1000.
@@ -174,7 +174,7 @@ WHERE Price > 500 AND IsActive = 1 AND StockQuantity > 10
       AND (CategoryID = 1 OR CategoryID = 4);
 
 -- ============================================
--- STEP 6.6 - BETWEEN & IN
+-- 6.6 - BETWEEN & IN
 -- ============================================
 
 -- 1. Products priced between ₹500 and ₹1500
@@ -211,7 +211,7 @@ WHERE CategoryID IN (3,4,5) AND IsActive = 1
       Price BETWEEN 800 AND 4000;
 
 -- ============================================
--- STEP 6.7 - LIKE
+-- 6.7 - LIKE
 -- ============================================
 
 -- 1. Products whose names contain Wireless
@@ -250,7 +250,7 @@ WHERE ProductName LIKE '%Head%'
       AND Price > 1000;
 
 -- ============================================
--- STEP 6.8 - ORDER BY
+-- 6.8 - ORDER BY
 -- ============================================
 
 -- 1. Products from the lowest price to the highest price.
@@ -297,7 +297,7 @@ ORDER BY CategoryID ASC,
          ProductName ASC;
 
 -- ============================================
--- STEP 6.9 - TOP & TOP PERCENT
+-- 6.9 - TOP & TOP PERCENT
 -- ============================================
 
 -- 1. Top 5 most expensive products
@@ -328,7 +328,7 @@ WHERE CategoryID = 1 AND IsActive = 1
 ORDER BY Price DESC, StockQuantity DESC;
 
 -- ============================================
--- STEP 6.10 - OFFSET & FETCH
+-- 6.10 - OFFSET & FETCH
 -- ============================================
 
 -- 1. Second page of products ordered by ProductID (Page Size = 5)

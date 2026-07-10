@@ -114,4 +114,58 @@ FROM Customers
 WHERE LEN(FirstName + ' ' + LastName) < 11
 ORDER BY [Name Length] ASC;
 
+-- ============================================
+-- 8.3 - TRIM(), RTRIM() & LTRIM()
+-- ============================================
 
+/* 1. Display customer emails after removing unwanted spaces.
+Also display the email length after trimming. */
+
+SELECT FirstName,
+	   TRIM(Email) [Cleaned Email],
+	   LEN(TRIM(Email)) [Cleaned Email Length]
+FROM Customers;
+
+/* 2. Display:
+-> CustomerID
+-> Full Customer Name (Trimmed & Uppercase)
+Sort alphabetically. */
+
+SELECT CustomerID, 
+	   UPPER(TRIM(FirstName) + ' ' + TRIM(LastName)) [Trimmed Full Name]
+FROM Customers
+ORDER BY [Trimmed Full Name];
+
+/* 3. Display:
+-> ProductID
+-> ProductName
+-> Clean Product Name
+-> Length of Clean Product Name
+Show only active products whose cleaned name contains more than 12 characters. */
+
+SELECT ProductID, ProductName,
+	   TRIM(ProductName) [Clean Product Name],
+	   LEN(TRIM(ProductName)) [Length of Clean Product Name]
+FROM Products
+WHERE IsActive = 1 AND LEN(TRIM(ProductName)) > 12
+ORDER BY [Length of Clean Product Name] DESC;
+
+/* 4. Create a cleaned customer report displaying:
+-> CustomerID
+-> Customer Name (Trimmed & Uppercase)
+-> Email (Trimmed & Lowercase)
+-> City (Trimmed)
+-> Length of Customer Name
+Sort the report alphabetically by customer name. */
+
+SELECT CustomerID, 
+	   UPPER(TRIM(FirstName) + ' ' + TRIM(LastName)) [Customer Name],
+	   LOWER(TRIM(Email)) [Email],
+	   TRIM(City) [City],
+	   LEN(TRIM(FirstName) + ' ' + TRIM(LastName)) [Name Length]
+FROM Customers
+ORDER BY [Customer Name];
+
+-- ============================================
+-- 8.4 - LEFT(), RIGHT() & SUBSTRING()
+-- ============================================

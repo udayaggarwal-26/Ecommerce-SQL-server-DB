@@ -31,7 +31,7 @@ VALUES
 SELECT * FROM ProductPractice;
 
 -- ============================================
--- STEP 5.1 - ALTER
+-- 5.1 - ALTER
 -- ============================================
 
 -- 1. Add a new column Brand and specify its value for each product
@@ -61,14 +61,14 @@ ALTER TABLE ProductPractice
 DROP COLUMN Brand;
 
 -- ============================================
--- STEP 5.2 - TRUNCATE
+-- 5.2 - TRUNCATE
 -- ============================================
 
 -- 1. TRUNCATE the table
 TRUNCATE TABLE ProductPractice;
 
 -- ============================================
--- STEP 5.3 - DROP
+-- 5.3 - DROP
 -- ============================================
 
 -- 1. DROP the table

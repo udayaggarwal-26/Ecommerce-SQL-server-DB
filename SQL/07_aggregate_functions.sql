@@ -19,7 +19,7 @@ aggregate functions and grouped reports.
 */
 
 -- ============================================
--- STEP 7.1 - COUNT()
+-- 7.1 - COUNT()
 -- ============================================
 
 -- 1. How many products are available in the Products table?
@@ -57,7 +57,7 @@ FROM Customers
 WHERE City IN ('Delhi', 'Mumbai', 'Bangalore');
 
 -- ============================================
--- STEP 7.2 - MAX() & MIN()
+-- 7.2 - MAX() & MIN()
 -- ============================================
 
 -- 1. Highest payment amount ever recorded.
@@ -86,7 +86,7 @@ SELECT MAX(Price) AS HighestPrice
 FROM Products;
 
 -- ============================================
--- STEP 7.3 - SUM() & AVG()
+-- 7.3 - SUM() & AVG()
 -- ============================================
 
 -- 1. Total amount received through all successful and unsuccessful payments combined.
@@ -117,7 +117,7 @@ SELECT SUM(Price * StockQuantity) [Inventory Value]
 FROM Products;
 
 -- ============================================
--- STEP 7.4 - GROUP BY
+-- 7.4 - GROUP BY
 -- ============================================
 
 -- 1. Number of customers registered from each city.
@@ -152,7 +152,7 @@ GROUP BY Status
 ORDER BY [Total Orders] DESC;
 
 -- ============================================
--- STEP 7.5 - HAVING
+-- 7.5 - HAVING
 -- ============================================
 
 -- 1. Cities that have more than one registered customer.
