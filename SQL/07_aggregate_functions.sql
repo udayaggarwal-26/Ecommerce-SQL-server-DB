@@ -192,3 +192,112 @@ FROM Payments
 GROUP BY PaymentMethod
 HAVING SUM(Amount) > 5000
 ORDER BY [Total Revenue] DESC;
+
+-- ============================================
+-- Aggregate Challenge 
+-- ============================================
+
+/* 1. Categories having more than 50 units in stock considering only active products.
+Sort the categories from highest stock to lowest. */
+
+SELECT CategoryID, SUM(StockQuantity) [Total Stock] 
+FROM Products
+WHERE IsActive = 1
+GROUP BY CategoryID
+HAVING SUM(StockQuantity) > 50	
+ORDER BY [Total Stock] DESC;
+
+/* 2. Payment methods that have collected more than ₹5,000 from completed payments only.
+Sort by total revenue (highest first). */
+
+SELECT PaymentMethod, SUM(Amount) [Total Revenue] 
+FROM Payments
+WHERE PaymentStatus = 'Completed'
+GROUP BY PaymentMethod
+HAVING SUM(Amount) > 5000
+ORDER BY [Total Revenue] DESC;
+
+/* 3. Which customer cities have at least 2 registered customers?
+Sort alphabetically by city. */
+
+SELECT City, COUNT(*) [Total Customers] 
+FROM Customers
+GROUP BY City
+HAVING COUNT(*) >= 2
+ORDER BY City ASC;
+
+/* 4. Product categories where the average product price is greater than ₹1000,
+considering only active products. Sort by average price in descending order. */
+
+SELECT CategoryID, AVG(Price) [Average Price]
+FROM Products
+WHERE IsActive = 1
+GROUP BY CategoryID
+HAVING AVG(Price) > 1000
+ORDER BY [Average Price] DESC;
+
+/* 5. Orders whose total order value exceeds ₹3000.
+Sort by order value from highest to lowest. */
+
+SELECT OrderID, SUM(Quantity * UnitPrice) [Order Value]
+FROM OrderDetails
+GROUP BY OrderID
+HAVING SUM(Quantity * UnitPrice) > 3000
+ORDER BY [Order Value] DESC;
+
+/* 6. Among active products, identify categories where:
+-> Average product price exceeds ₹1500
+-> Total stock quantity exceeds 30 units
+Sort by average price in descending order. */
+
+SELECT CategoryID, AVG(Price) [Average Price], SUM(StockQuantity) [Total Stock]
+FROM Products
+WHERE IsActive = 1
+GROUP BY CategoryID
+HAVING AVG(Price) > 1500 AND SUM(StockQuantity) > 30
+ORDER BY [Average Price] DESC;
+
+/* 7. For each category, calculate:
+-> Number of Products
+-> Average Price
+-> Highest Price
+-> Lowest Price
+Display only categories having at least 2 products.
+Sort by average price (highest first). */
+
+SELECT CategoryID, 
+	   COUNT(*) [No of Products], 
+	   AVG(Price) [Average Price],
+	   MAX(Price) [Highest Price],
+	   MIN(Price) [Lowest Price]
+FROM Products
+GROUP BY CategoryID
+HAVING COUNT(*) >= 2
+ORDER BY [Average Price] DESC;
+
+/* 8. Generate a report showing only categories that satisfy all of the following:
+-> Products are active.
+-> Total stock is greater than 50 units.
+-> Average product price is greater than ₹1000.
+-> There are at least 2 products in the category.
+Display: CategoryID, Number of Products, Total Stock, Average Price,
+         Highest Product Price, Lowest Product Price
+Sort the report by Average Price (highest first).
+*/
+
+SELECT CategoryID, 
+	   SUM(StockQuantity) [Total Stock],
+	   AVG(Price) [Average Price],
+	   COUNT(*) [Total Products],
+	   MAX(Price) [Highest Product Price],
+	   MIN(Price) [Lowest Product Price]
+FROM Products
+WHERE IsActive = 1
+GROUP BY CategoryID
+HAVING SUM(StockQuantity) > 50 AND
+	   AVG(Price) > 1000 AND
+	   COUNT(*) >= 2
+ORDER BY [Average Price] DESC;
+	   
+	   
+
