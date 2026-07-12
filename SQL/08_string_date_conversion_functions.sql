@@ -169,3 +169,65 @@ ORDER BY [Customer Name];
 -- ============================================
 -- 8.4 - LEFT(), RIGHT() & SUBSTRING()
 -- ============================================
+
+/* 1. Display:
+-> ProductID
+-> ProductName
+-> Last 4 characters of ProductName
+Show only active products. */
+
+SELECT ProductID, ProductName,
+	   RIGHT(ProductName,4)
+FROM Products
+WHERE IsActive = 1;
+
+/* 2. Display:
+-> CustomerID
+-> Full Customer Name (Uppercase)
+-> First 2 characters of LastName */
+
+SELECT CustomerID,
+	   UPPER(FirstName + ' ' + LastName) [Customer Name],
+	   LEFT(LastName,2)
+FROM Customers;
+
+/* 3. Active products whose first 3 letters are 'Lap'
+Display:
+-> ProductID
+-> ProductName
+-> Price */
+
+SELECT ProductID, ProductName, Price
+FROM Products
+WHERE IsActive = 1 AND LEFT(ProductName,3) = 'Lap';
+
+/* 4. Display
+-> ProductID
+-> ProductName
+-> Characters 4–8 of ProductName
+Show only products whose name length is greater than 10. */
+
+SELECT ProductID, ProductName, 
+	   SUBSTRING(ProductName,4,5) [Extracted Text]
+FROM Products
+WHERE LEN(ProductName) > 10;
+
+/* 5. Generate a customer report displaying
+-> CustomerID
+-> Customer Name (Uppercase)
+-> City
+-> First 3 letters of City
+-> Last 2 letters of State
+Sort by City. */
+
+SELECT CustomerID, 
+	   UPPER(FirstName + ' ' + LastName) [Customer Name],
+	   City, 
+	   LEFT(City,3) [City PREFIX],
+	   RIGHT(State,2) [State SUFFIX]
+FROM Customers
+ORDER BY City ASC;
+
+-- ============================================
+-- 8.5 - LEFT(), RIGHT() & SUBSTRING()
+-- ============================================
