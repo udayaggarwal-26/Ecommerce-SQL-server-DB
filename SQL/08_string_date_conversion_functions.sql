@@ -229,5 +229,252 @@ FROM Customers
 ORDER BY City ASC;
 
 -- ============================================
--- 8.5 - LEFT(), RIGHT() & SUBSTRING()
+-- 8.5 - REPLACE() & CONCAT()
 -- ============================================
+
+/* 1. Display:
+-> CustomerID
+-> Customer Name (Uppercase)
+-> Email with .com replaced by .org */
+
+SELECT CustomerID, 
+	   UPPER(CONCAT(FirstName,' ',LastName)) [Customer Name],
+	   REPLACE(Email,'.com','.org')
+FROM Customers;
+
+/* 2. Generate a report displaying:
+-> ProductID
+-> Product Name
+-> Product Code
+Where Product Code is created by:
+Converting the name to uppercase and replacing spaces with '_'.
+Show only products whose names contain more than 10 characters. */
+
+SELECT ProductID,
+	   ProductName,
+	   REPLACE(UPPER(ProductName),' ','_') [Product Code]
+FROM Products
+WHERE LEN(ProductName) > 10;
+
+/* 3. Generate a customer report displaying:
+-> CustomerID
+-> Customer Name
+-> Initials
+Initials should contain:
+First letter of FirstName and first letter of LastName */
+
+SELECT CustomerID,
+	   CONCAT(FirstName,' ',LastName) [Customer Name],
+	   CONCAT(LEFT(FirstName,1),LEFT(LastName,1)) [Initials]
+FROM Customers;
+
+-- 4. Hide a specific part of the Email for each customer.
+
+SELECT CustomerID,
+	   CONCAT(FirstName,' ',LastName) [Customer Name],
+       REPLACE(Email,SUBSTRING(Email,3,8),'******')
+FROM Customers;
+
+/* 5. Generate usernames using this format: FirstName.LastName
+Rules:
+-> Convert everything to lowercase.
+-> Remove spaces from both names.
+   Display:
+   -> CustomerID
+   -> Customer Name
+   -> Username */
+
+SELECT CustomerID, 
+	   CONCAT(TRIM(FirstName),' ',TRIM(LastName)) [Customer Name],
+	   CONCAT(LOWER(TRIM(FirstName)),'.',LOWER(TRIM(LastName))) [Username]
+FROM Customers;
+
+-- ============================================
+-- 8.6 - GETDATE()
+-- ============================================
+
+-- 1. Current Date & Time
+
+SELECT GETDATE() [Current DateTime];
+
+/* 2. Display:
+-> OrderID
+-> OrderDate
+-> Current Date & Time
+Show only orders placed before today. */
+
+SELECT OrderID, OrderDate, GETDATE() [Current DateTime]
+FROM Orders
+WHERE OrderDate < GETDATE();
+
+-- ============================================
+-- 8.7 - YEAR(), MONTH() & DAY()
+-- ============================================
+
+/* 1. Display:
+-> PaymentID
+-> PaymentDate
+-> Payment Year
+Show only payments made in the current year. */
+
+SELECT PaymentID, PaymentDate, YEAR(PaymentDate) [Payment Year] 
+FROM Payments
+WHERE YEAR(PaymentDate) = YEAR(GETDATE());
+
+/* 2. Display:
+-> CustomerID
+-> Customer Name
+-> Registration Month
+Show only customers who registered in January. */
+
+SELECT CustomerID, 
+       CONCAT(FirstName,' ',LastName) [Customer Name],
+	   MONTH(RegisterDate) [Registration Month]
+FROM Customers
+WHERE MONTH(RegisterDate) = 1;
+
+/* 3. Display active products along with today's:
+-> Year
+-> Month
+-> Day  */
+
+SELECT ProductID, ProductName,
+	   YEAR(GETDATE()) [Current Year],
+	   MONTH(GETDATE()) [Current Month],
+	   DAY(GETDATE()) [Current Day]
+FROM Products
+WHERE IsActive = 1;
+
+/* 4. The management team wants a customer registration report.
+Display:
+-> CustomerID
+-> Customer Name (Uppercase)
+-> Registration Date
+-> Registration Year
+-> Registration Month
+-> Registration Day
+Show only customers who registered in the current year.
+Sort by registration month and then by registration day. */
+
+SELECT CustomerID,
+	   UPPER(CONCAT(FirstName,' ',LastName)) [Customer Name],
+	   RegisterDate,
+	   YEAR(RegisterDate) [Registration Year],
+	   MONTH(RegisterDate) [Registration Month],
+	   DAY(RegisterDate) [Registration Day]
+FROM Customers
+WHERE YEAR(RegisterDate) = YEAR(GETDATE()) 
+ORDER BY [Registration Month], [Registration Day];
+
+-- ============================================
+-- 8.8 - DATEDIFF()
+-- ============================================
+
+/* 1. Display:
+-> CustomerID
+-> Customer Name
+-> Number of days since registration
+Sort by the customer who has been registered the longest. */
+
+SELECT CustomerID,
+	   UPPER(CONCAT(FirstName,' ',LastName)) [Customer Name],
+	   DATEDIFF(DAY,RegisterDate,GETDATE()) [Days Registered]
+FROM Customers
+ORDER BY [Days Registered] DESC;
+
+/* 2. Display:
+-> CustomerID
+-> Customer Name
+-> Number of years since registration
+Show only customers who have been registered for at least 2 years and sort by the 
+longest registered customer. */
+
+SELECT CustomerID, 
+	   CONCAT(FirstName,' ',LastName) [Customer Name],
+	   DATEDIFF(YEAR,RegisterDate,GETDATE()) [Years Registered]
+FROM Customers
+WHERE DATEDIFF(YEAR,RegisterDate,GETDATE()) >= 2
+ORDER BY [Years Registered] DESC;
+
+/* 3. Generate a report displaying:
+-> CustomerID
+-> Customer Name
+-> Registration Date
+-> Total Days Registered
+-> Total Months Registered
+-> Total Years Registered
+Show only customers who have been registered for more than 365 days.
+Sort by total days registered (highest first). */
+
+SELECT CustomerID,
+	   CONCAT(FirstName,' ',LastName) [Customer Name],
+	   RegisterDate,
+	   DATEDIFF(DAY,RegisterDate,GETDATE()) [Days Registered],
+	   DATEDIFF(MONTH,RegisterDate,GETDATE()) [Months Registered],
+	   DATEDIFF(YEAR,RegisterDate,GETDATE()) [Years Registered]
+FROM Customers
+WHERE DATEDIFF(DAY,RegisterDate,GETDATE()) > 365
+ORDER BY [Days Registered] DESC;
+
+-- ============================================
+-- 8.9 - DATEADD()
+-- ============================================
+
+/* 1. Display:
+-> OrderID
+-> OrderDate
+-> Expected Delivery Date
+Assume delivery takes 5 days. */
+
+SELECT OrderID, OrderDate, 
+	   DATEADD(DAY,5,OrderDate) [Delivery Date]
+FROM Orders;
+
+/* 2. Display active products along with:
+-> ProductID
+-> ProductName
+-> Date exactly 30 days from today
+Sort by Product Name. */
+
+SELECT ProductID, ProductName,
+	   DATEADD(DAY,30,GETDATE()) [Future Date]
+FROM Products
+WHERE IsActive = 1
+ORDER BY ProductName;
+
+/* 3. Generate an order report displaying:
+-> OrderID
+-> OrderDate
+-> Expected Delivery (7 days later)
+-> Warranty Expiry (1 year after OrderDate)
+Sort by OrderDate. */
+
+SELECT OrderID, OrderDate,
+	   DATEADD(DAY,7,OrderDate) [Expected Delivery],
+	   DATEADD(YEAR,1,OrderDate) [Warranty Expire]
+FROM Orders
+ORDER BY OrderDate;
+
+/* 4. Generate a delivery schedule displaying:
+-> OrderID
+-> CustomerID
+-> OrderDate
+-> Expected Delivery Date
+-> Reminder Date (2 days before delivery)
+Sort by Expected Delivery Date. */
+
+SELECT OrderID, CustomerID, OrderDate,
+       DATEADD(DAY,7,OrderDate) [Expected Delivery],
+	   DATEADD(DAY,5,OrderDate) [Reminder Date]
+FROM Orders
+ORDER BY [Expected Delivery];
+
+-- OR
+
+SELECT OrderID, CustomerID, OrderDate,
+       DATEADD(DAY,7,OrderDate) [Expected Delivery],
+	   DATEADD(DAY,-2,DATEADD(DAY,7,OrderDate)) [Reminder Date]
+FROM Orders
+ORDER BY [Reminder Date];
+
+
