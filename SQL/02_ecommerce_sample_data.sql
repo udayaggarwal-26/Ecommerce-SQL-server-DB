@@ -84,4 +84,3 @@ INSERT INTO Payments (OrderID, PaymentDate, Amount, PaymentMethod, PaymentStatus
 (5, '2026-06-01', 1197.00, 'UPI', 'Completed'),
 (6, '2026-06-05', 2499.00, 'CreditCard', 'Refunded'),
 (7, '2026-06-20', 3194.00, 'COD', 'Completed');
-

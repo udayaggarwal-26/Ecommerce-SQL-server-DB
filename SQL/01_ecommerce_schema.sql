@@ -101,4 +101,3 @@ CREATE TABLE Payments (
     CONSTRAINT FK_Payments_Orders
     FOREIGN KEY (OrderID) REFERENCES Orders(OrderID)
 );
-

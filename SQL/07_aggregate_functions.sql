@@ -298,6 +298,3 @@ HAVING SUM(StockQuantity) > 50 AND
 	   AVG(Price) > 1000 AND
 	   COUNT(*) >= 2
 ORDER BY [Average Price] DESC;
-	   
-	   
-
