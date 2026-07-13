@@ -477,4 +477,54 @@ SELECT OrderID, CustomerID, OrderDate,
 FROM Orders
 ORDER BY [Reminder Date];
 
+-- ============================================
+-- 8.10 - CAST() & CONVERT()
+-- ============================================
 
+/* 1. Display:
+-> PaymentID
+-> PaymentDate
+Display the payment date in DD-MM-YYYY format. */
+	
+SELECT PaymentID,
+	   CONVERT(VARCHAR,PaymentDate,105) [Payment Date]
+FROM Payments;
+
+/* 2. Display active products:
+-> ProductID
+-> ProductName
+-> Price
+-> Price converted to INTEGER
+Sort by converted price (highest first). */
+
+SELECT ProductID, ProductName, Price,
+	   CAST(Price AS INT) [Converted Price]
+FROM Products
+WHERE IsActive = 1
+ORDER BY [Converted Price] DESC;
+
+/* 3. Generate an order report displaying:
+-> OrderID
+-> CustomerID
+-> Order Date (DD/MM/YYYY)
+-> Expected Delivery Date (7 days later, DD/MM/YYYY) */
+
+SELECT OrderID, CustomerID,
+	   CONVERT(VARCHAR,OrderDate,103) [Order Date],
+	   CONVERT(VARCHAR,DATEADD(DAY,7,OrderDate),103) [Delivery Date]
+FROM Orders;
+
+/* 4. Generate a payment report displaying:
+-> PaymentID
+-> PaymentMethod
+-> Amount converted to INTEGER
+-> Payment Date in DD/MM/YYYY
+-> Report Generated On in DD MON YYYY
+Sort by Payment Date. */
+
+SELECT PaymentID, PaymentMethod, 
+	   CAST(Amount AS INT) [Amount],
+	   CONVERT(VARCHAR,PaymentDate,103) [Payment Date],
+	   CONVERT(VARCHAR,GETDATE(),106) [Report Generated On]
+FROM Payments
+ORDER BY PaymentDate;
